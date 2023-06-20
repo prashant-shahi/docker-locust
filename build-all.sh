@@ -8,7 +8,7 @@ function join { local IFS="$1"; shift; echo "$*"; }
 #
 # Returns (via 'echo') computed tag value.
 function compute_tag() {
-    echo "grubykarol/locust:$2-$3-$4"
+    echo "signoz/locust:$2-$3-$4"
 }
 
 function build_image() {

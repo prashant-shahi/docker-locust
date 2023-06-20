@@ -1,5 +1,5 @@
-![pulls](https://img.shields.io/docker/pulls/grubykarol/locust?logo=docker&style=flat-square)
-![stars](https://img.shields.io/docker/stars/grubykarol/locust?style=flat-square)
+![pulls](https://img.shields.io/docker/pulls/signoz/locust?logo=docker&style=flat-square)
+![stars](https://img.shields.io/docker/stars/signoz/locust?style=flat-square)
 
 I wanted the image to:
 * use Python 3.x
@@ -53,12 +53,12 @@ For example, for locust 0.10.0 that runs on Python 3.6 on Alpine 3.9 the dockerf
    | `-- python3.6
    |   `-- alpine3.9
 ```
-The tag for this image will be: **grubykarol/locust:0.10.0-python3.6-alpine3.9**.
+The tag for this image will be: **signoz/locust:0.10.0-python3.6-alpine3.9**.
 
 
 # Usage
 
-published images on docker hub: https://hub.docker.com/r/grubykarol/locust
+published images on docker hub: https://hub.docker.com/r/signoz/locust
 
 The image does not include locust scripts during a build. It assumes, the scripts will be supplied on runtime by mounting a volume (to `/locust` path).
 
@@ -69,13 +69,13 @@ would inherit from this one and only include test scripts (although it's also po
 Pull the latest stable version:
 
 ```
-docker pull grubykarol/locust
+docker pull signoz/locust
 ```
 
 Or choose locust, python and OS (Operating System) version you want and pull and the image that is tagged accordingly (see: [Tagging structure](#tagging-structure)):
 
 ```
-docker pull grubykarol/locust:1.2.3-python3.9-alpine3.12
+docker pull signoz/locust:1.2.3-python3.9-alpine3.12
 ```
 
 
@@ -96,11 +96,11 @@ The image uses the following environment variables to configure its behavior:
 
 Basic run, with folder (path in $MY_SCRIPTS) holding `locustfile.py`:
 ```
-docker run --rm --name standalone --hostname standalone -e ATTACKED_HOST=http://standalone:8089 -p 8089:8089 -d -v $MY_SCRIPTS:/locust grubykarol/locust
+docker run --rm --name standalone --hostname standalone -e ATTACKED_HOST=http://standalone:8089 -p 8089:8089 -d -v $MY_SCRIPTS:/locust signoz/locust
 ```
 or, with additional runtime options (in this example, for running without the UI):
 ```
-docker run --rm --name standalone --hostname standalone -e ATTACKED_HOST=http://example.com -e "LOCUST_OPTS=--no-web" -d -v $MY_SCRIPTS:/locust grubykarol/locust
+docker run --rm --name standalone --hostname standalone -e ATTACKED_HOST=http://example.com -e "LOCUST_OPTS=--no-web" -d -v $MY_SCRIPTS:/locust signoz/locust
 ```
 
 ### Master-worker
@@ -112,7 +112,7 @@ docker run --name master --hostname master \
  -v $MY_SCRIPTS:/locust \
  -e ATTACKED_HOST=http://master:8089 \
  -e LOCUST_MODE=master \
- --rm -d grubykarol/locust
+ --rm -d signoz/locust
 ```
 
 and some workers:
@@ -124,7 +124,7 @@ docker run --name worker0 \
  -e ATTACKED_HOST=http://master:8089 \
  -e LOCUST_MODE=worker \
  -e LOCUST_MASTER=master \
- --rm -d grubykarol/locust
+ --rm -d signoz/locust
 
 docker run --name worker1 \
  --link master --env NO_PROXY=master \
@@ -132,7 +132,7 @@ docker run --name worker1 \
  -e ATTACKED_HOST=http://master:8089 \
  -e LOCUST_MODE=worker \
  -e LOCUST_MASTER=master \
- --rm -d grubykarol/locust
+ --rm -d signoz/locust
 ```
 
 
@@ -144,7 +144,7 @@ docker run --rm --name standalone `
  -e ATTACKED_HOST=http://localhost:8089 `
  -v c:\locust-scripts:/locust `
  -p 8089:8089 -d `
- grubykarol/locust
+ signoz/locust
 ```
 
 Run master:
@@ -154,7 +154,7 @@ docker run --name master --hostname master `
  -v c:\locust-scripts:/locust `
  -e ATTACKED_HOST='http://master:8089' `
  -e LOCUST_MODE=master `
- --rm -d grubykarol/locust
+ --rm -d signoz/locust
 ```
 
 Run worker:
@@ -165,7 +165,7 @@ docker run --name worker0 `
  -e ATTACKED_HOST=http://master:8089 `
  -e LOCUST_MODE=worker `
  -e LOCUST_MASTER=master `
- --rm -d grubykarol/locust
+ --rm -d signoz/locust
 ```
 
 ## Examples
@@ -175,11 +175,11 @@ See the folder for details.
 # Building the image
 Choose Locust, Python and OS (Operating System) version you want by going into desired directory (see: [Repository structure](#repository-structure))
 ```
-docker build -t grubykarol/locust:1.2.3-python3.9-alpine3.12 .
+docker build -t signoz/locust:1.2.3-python3.9-alpine3.12 .
 ```
 or, if behind a proxy (and the proxies are defined in HTTP(S)_PROXY variables:
 ```
-docker build --build-arg HTTP_PROXY=$http_proxy --build-arg HTTPS_PROXY=$https_proxy -t grubykarol/locust:1.2.3-python3.9-alpine3.12 .
+docker build --build-arg HTTP_PROXY=$http_proxy --build-arg HTTPS_PROXY=$https_proxy -t signoz/locust:1.2.3-python3.9-alpine3.12 .
 ```
 
 There is also a simple and messy bash script -- [build-all.sh](build-all.sh) -- for development purposes. It's able to build all the images or images for selected locust version.
